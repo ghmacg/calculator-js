@@ -1,15 +1,22 @@
-let firstNum;
-let secondNum;
-let operator;
+let firstNum = null;
+let secondNum = null;
+let firstOp = null;
+let secondOp = null;
+let displayValue = 0;
 
-const add = (num1, num2) => num1 + num2;
-const substract = (num1, num2) => num1 - num2;
-const multiply = (num1, num2) => num1 * num2;
-const divide = (num1, num2) => num1 / num2;
+const add = (x, y) => x + y;
+const substract = (x, y) => x - y;
+const multiply = (x, y) => x * y;
+const divide = (x, y) => x / y;
 
-function operate (operator, num1, num2) {
-    operator == '+' ? add(num1, num2) :
-        operator == '-' ? substract(num1, num2) :
-            operator == 'x' ? multiply(num1, num2) :
-                operator == '÷' ? divide(num1, num2) : operator;
-}
+function operate (operator, x, y) {
+    operator == '+' ? add(x, y) :
+        operator == '-' ? substract(x, y) :
+            operator == 'x' ? multiply(x, y) :
+                operator == '÷' ? divide(x, y) : operator;
+};
+
+function updateDisplay () {
+    const display = document.querySelector('#display');
+    display.innerText = displayValue;
+};
