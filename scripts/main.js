@@ -70,3 +70,14 @@ function inputEquals () {
         updateDisplay(firstNum);
     });
 };
+
+function inputAllClear () {
+    const clearBtn = document.querySelector('#clear');
+
+    clearBtn.addEventListener('click', () => {
+        firstNum = '';
+        secondNum = '';
+        currentOperator = null;
+        updateDisplay(0);
+    });
+};
