@@ -93,9 +93,22 @@ function inputAllClear () {
     });
 };
 
+// Function to divide the number by 100 when percentage button clicked
+function inputPercentage () {
+    const percentageBtn = document.querySelector('#percent');
 
+    percentageBtn.addEventListener('click', () => {
+        if (firstNum === '') {
+            return;
+        };
+
+        firstNum = firstNum / 100;
+        updateDisplay(firstNum);
+    });
+};
 
 inputOperand();
 inputOperator();
 inputEquals();
 inputAllClear();
+inputPercentage();
