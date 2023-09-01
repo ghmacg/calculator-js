@@ -20,3 +20,19 @@ function updateDisplay (value) {
     const display = document.querySelector('#display');
     display.innerHTML = value;
 };
+
+function inputOperand () {
+    const operandBtns = document.querySelectorAll('.operand');
+
+    operandBtns.forEach((operand) => {
+        operand.addEventListener('click', () => {
+            if (currentOperator === null) {
+                firstNum += operand.id;
+                updateDisplay(firstNum);
+            } else if (currentOperator !== null) {
+                secondNum += operand.id;
+                updateDisplay(secondNum);
+            };
+        });
+    });
+};
