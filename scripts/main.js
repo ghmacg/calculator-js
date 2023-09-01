@@ -16,7 +16,7 @@ function operate (operator, x, y) {
                 operator === '÷' ? divide(x, y): '';
     
     // Use toFixed method to round numbers when larger than 8 decimal places
-    // + sign drops any "extra" zeroes at the end
+    // + sign drops any "extra" zeroes at the end, converting the string to number once again
     firstNum = +firstNum.toFixed(8);
     secondNum = '';
 };
@@ -58,7 +58,7 @@ function inputOperator () {
                     return;
                 };
 
-                operate(currentOperator, Number(firstNum), Number(secondNum));
+                operate(currentOperator, +firstNum, +secondNum);
                 updateDisplay(firstNum);
                 currentOperator = operator.id;
             }
@@ -75,7 +75,7 @@ function inputEquals () {
             return;
         };
 
-        operate(currentOperator, Number(firstNum), Number(secondNum));
+        operate(currentOperator, +firstNum, +secondNum);
         updateDisplay(firstNum);
     });
 };
