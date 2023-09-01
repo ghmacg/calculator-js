@@ -15,3 +15,8 @@ function operate (operator, x, y) {
     
     secondNum = '';
 };
+
+function updateDisplay (value) {
+    const display = document.querySelector('#display');
+    display.innerHTML = value;
+};
