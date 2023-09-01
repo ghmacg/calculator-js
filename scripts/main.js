@@ -57,3 +57,16 @@ function inputOperator () {
         });
     });
 };
+
+function inputEquals () {
+    const equalBtn = document.querySelector('#equals');
+
+    equalBtn.addEventListener('click', () => {
+        if (secondNum === '') {
+            return;
+        };
+
+        operate(currentOperator, Number(firstNum), Number(secondNum));
+        updateDisplay(firstNum);
+    });
+};
