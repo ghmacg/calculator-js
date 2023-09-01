@@ -36,3 +36,24 @@ function inputOperand () {
         });
     });
 };
+
+function inputOperator () {
+    const operatorBtns = document.querySelectorAll('.operator');
+
+    operatorBtns.forEach((operator) => {
+        operator.addEventListener('click', () => {
+            if (currentOperator === null) {
+                currentOperator = operator.id;
+            } else if (currentOperator !== null) {
+                if (secondNum === '') {
+                    currentOperator = operator.id;
+                    return;
+                };
+
+                operate(currentOperator, Number(firstNum), Number(secondNum));
+                updateDisplay(firstNum);
+                currentOperator = operator.id;
+            }
+        });
+    });
+};
