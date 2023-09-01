@@ -6,6 +6,7 @@ let currentOperator = null;
 const add = (x, y) => x + y;
 const substract = (x, y) => x - y;
 const multiply = (x, y) => x * y;
+// Evaluate whether or not the user is dividing by 0, in that case return ERROR message 
 const divide = (x, y) => y == 0 ? 'ERROR: cannot divide by 0' : x / y;
 
 // Function to run basic math function depending on operator inputted
