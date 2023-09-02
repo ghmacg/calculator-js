@@ -36,9 +36,18 @@ function inputOperand () {
     operandBtns.forEach((operand) => {
         operand.addEventListener('click', () => {
             if (currentOperator === null) {
+                if ((firstNum === '') && (operand.id == 0)) {
+                    return;
+                };
+
                 firstNum += operand.id;
                 updateDisplay(firstNum);
             } else if (currentOperator !== null) {
+                if ((secondNum === '') && (operand.id == 0)) {
+                    updateDisplay(0);
+                    return;
+                };
+
                 secondNum += operand.id;
                 updateDisplay(secondNum);
             };
@@ -136,7 +145,7 @@ function inputDecimal () {
         firstNum = firstNum === '' ? 0 : firstNum;
         decimalNum = secondNum !== '' ? secondNum.toString().split('') : firstNum.toString().split('');
         
-        // Used for loop to check if the number already have a decimal point
+        // Use for loop to check if the number already have a decimal point
         // if thats the case then return
         for (let i = 0; i <= decimalNum.length; i++) {
             if (decimalNum[i] === '.') {
