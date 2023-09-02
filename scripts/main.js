@@ -20,6 +20,7 @@ function operate (operator, x, y) {
     // + sign drops any "extra" zeroes at the end, converting the string to number once again
     firstNum = +firstNum.toFixed(8);
     secondNum = '';
+    currentOperator = null;
 };
 
 // Function to update display with value passed through parameter 
@@ -93,7 +94,7 @@ function inputAllClear () {
     });
 };
 
-// Function to divide the number by 100 when percentage button clicked
+// Function to divide the number by 100 when percentage button is clicked
 function inputPercentage () {
     const percentageBtn = document.querySelector('#percent');
 
@@ -125,9 +126,40 @@ function inputSign () {
     });
 };
 
+// Function to add decimal point when button is clicked 
+function inputDecimal () {
+    let decimalNum;
+    const decimalBtn = document.querySelector('#decimal');
+
+    decimalBtn.addEventListener('click', () => {
+        secondNum = firstNum !== '' && secondNum === '' && currentOperator !== null ? 0 : secondNum;
+        firstNum = firstNum === '' ? 0 : firstNum;
+        decimalNum = secondNum !== '' ? secondNum.toString().split('') : firstNum.toString().split('');
+        
+        // Used for loop to check if the number already have a decimal point
+        // if thats the case then return
+        for (let i = 0; i <= decimalNum.length; i++) {
+            if (decimalNum[i] === '.') {
+                return;
+            };
+        };
+
+        if (secondNum !== '') {
+            secondNum += '.';
+            updateDisplay(secondNum);
+            return;
+        };
+        
+        firstNum += '.';
+        updateDisplay(firstNum);
+    });
+};
+
+
 inputOperand();
 inputOperator();
 inputEquals();
 inputAllClear();
 inputPercentage();
 inputSign();
+inputDecimal();
