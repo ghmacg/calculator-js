@@ -102,7 +102,25 @@ function inputPercentage () {
             return;
         };
 
-        firstNum = firstNum / 100;
+        firstNum = +firstNum / 100;
+        updateDisplay(firstNum);
+    });
+};
+
+// Function to change the sign of the current number when button is clicked
+function inputSign () {
+    const signsBtn = document.querySelector('#sign');
+
+    signsBtn.addEventListener('click', () => {
+        if (firstNum === '') {
+            return;
+        } else if (secondNum !== '') {
+            secondNum = +secondNum * -1; 
+            updateDisplay(secondNum);
+            return;
+        };
+
+        firstNum = +firstNum * -1;
         updateDisplay(firstNum);
     });
 };
@@ -112,3 +130,4 @@ inputOperator();
 inputEquals();
 inputAllClear();
 inputPercentage();
+inputSign();
