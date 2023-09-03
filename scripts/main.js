@@ -171,14 +171,13 @@ function inputDecimal () {
             };
         };
 
-        if (secondNum !== '') {
+        if ((secondNum !== '') && (secondNum.length !== 9)) {
             secondNum += '.';
             updateDisplay(secondNum);
-            return;
+        } else if (firstNum.length !== 9) {
+            firstNum += '.';
+            updateDisplay(firstNum);
         };
-        
-        firstNum += '.';
-        updateDisplay(firstNum);
     });
 };
 
