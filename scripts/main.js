@@ -26,6 +26,8 @@ function operate (operator, x, y) {
 // Function to update display with value passed through parameter 
 function updateDisplay (value) {
     const display = document.querySelector('#display');
+    // Regular expresion to add commas as thousands separators
+    value = value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     display.innerHTML = value;
 };
 
