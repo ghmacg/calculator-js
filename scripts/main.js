@@ -7,7 +7,9 @@ const add = (x, y) => x + y;
 const substract = (x, y) => x - y;
 const multiply = (x, y) => x * y;
 // Evaluate whether or not the user is dividing by 0, in that case return ERROR message 
-const divide = (x, y) => y === 0 ? 'ERROR: cannot divide by 0' : x / y;
+const divide = (x, y) => y === 0 ? 'ERROR' : x / y;
+// Function to split str, used when needed to check length of numbers
+const splitString = (str) => str.toString().replace(/[.-]/g, '').split('');
 
 // Function to run basic math function depending on operator inputted
 function operate (operator, x, y) {
@@ -21,14 +23,14 @@ function operate (operator, x, y) {
     currentOperator = null;
 };
 
-const splitString = (str) => str.toString().replace(/[.-]/g, '').split('');
-
 // Function to update display with value passed through parameter 
 function updateDisplay (value) {
     let valueSplit = splitString(value);
     const display = document.querySelector('#display');
 
-    if (valueSplit.length > 9) {
+    if (value === 'ERROR') {
+        firstNum = '';
+    } else if (valueSplit.length > 9) {
         value = Number(value).toExponential(0);
     } else {
         // Regular expresion to add commas as thousands separators
