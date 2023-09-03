@@ -1,8 +1,18 @@
 let firstNum = '';
 let secondNum = '';
 let currentOperator = null;
+let valueSplit;
+let decimalNum;
 
 const display = document.querySelector('#display');
+const operandBtns = document.querySelectorAll('.operand');
+const operatorBtns = document.querySelectorAll('.operator');
+const equalBtn = document.querySelector('#equals');
+const clearBtn = document.querySelector('#clear');
+const percentageBtn = document.querySelector('#percent');
+const signsBtn = document.querySelector('#sign');
+const decimalBtn = document.querySelector('#decimal');
+
 // Basic math functions
 const add = (x, y) => x + y;
 const substract = (x, y) => x - y;
@@ -41,167 +51,162 @@ function updateDisplay (value) {
 };
 
 // Function to define first and second number
-function inputOperand () {
-    let valueSplit;
-    const operandBtns = document.querySelectorAll('.operand');
+function inputOperand (operand) {
+    valueSplit = currentOperator === null ? splitString(firstNum) :
+        currentOperator !== null ? splitString(secondNum) : '';
 
-    operandBtns.forEach((operand) => {
-        operand.addEventListener('click', () => {
-            valueSplit = currentOperator === null ? splitString(firstNum) :
-                currentOperator !== null ? splitString(secondNum) : '';
+    if (currentOperator === null) {
+        let firstChar = firstNum.toString().charAt(0);
+        let secondChar = firstNum.toString().charAt(1);
 
-            if (currentOperator === null) {
-                let firstChar = firstNum.toString().charAt(0);
-                let secondChar = firstNum.toString().charAt(1);
+        if (((firstNum === '') || (firstNum === 0)) && (operand.id == 0)) {
+            return;
+        } else if (valueSplit.length >= 9) {
+            return;
+        } else if (secondChar == '.') {
+            firstNum += operand.id;
+            updateDisplay(firstNum);
+            return;
+        } else if ((firstChar == 0) && (operand.id != 0)) {
+            firstNum = operand.id;
+            firstChar = firstNum.toString().charAt(0);
+            updateDisplay(firstNum);
+            return;
+        };
 
-                if (((firstNum === '') || (firstNum === 0)) && (operand.id == 0)) {
-                    return;
-                } else if (valueSplit.length >= 9) {
-                    return;
-                } else if (secondChar == '.') {
-                    firstNum += operand.id;
-                    updateDisplay(firstNum);
-                    return;
-                } else if ((firstChar == 0) && (operand.id != 0)) {
-                    firstNum = operand.id;
-                    firstChar = firstNum.toString().charAt(0);
-                    updateDisplay(firstNum);
-                    return;
-                };
+        firstNum += operand.id;
+        updateDisplay(firstNum);
+    } else if (currentOperator !== null) {
+        if (((secondNum === '') || (secondNum === 0)) && (operand.id == 0)) {
+            secondNum = 0;
+            updateDisplay(secondNum);
+            return;
+        } else if (valueSplit.length >= 9) {
+            return;
+        };
 
-                firstNum += operand.id;
-                updateDisplay(firstNum);
-            } else if (currentOperator !== null) {
-                if (((secondNum === '') || (secondNum === 0)) && (operand.id == 0)) {
-                    secondNum = 0;
-                    updateDisplay(secondNum);
-                    return;
-                } else if (valueSplit.length >= 9) {
-                    return;
-                };
-
-                secondNum += operand.id;
-                updateDisplay(secondNum);
-            };
-        });
-    });
+        secondNum += operand.id;
+        updateDisplay(secondNum);
+    };
 };
 
 // Function to define current operator and operate when needed
-function inputOperator () {
-    const operatorBtns = document.querySelectorAll('.operator');
-
-    operatorBtns.forEach((operator) => {
-        operator.addEventListener('click', () => {
-            if (display.innerHTML === 'ERROR') {
-                return;
-            }else if (currentOperator === null) {
-                currentOperator = operator.id;
-            } else if (currentOperator !== null) {
-                if (secondNum === '') {
-                    currentOperator = operator.id;
-                    return;
-                };
-
-                operate(currentOperator, +firstNum, +secondNum);
-                updateDisplay(firstNum);
-                currentOperator = operator.id;
-            }
-        });
-    });
-};
-
-// Function to operate when equals button is clicked
-function inputEquals () {
-    const equalBtn = document.querySelector('#equals');
-
-    equalBtn.addEventListener('click', () => {
+function inputOperator (operator) {
+    if (display.innerHTML === 'ERROR') {
+        return;
+    } else if (currentOperator === null) {
+        currentOperator = operator.id;
+    } else if (currentOperator !== null) {
         if (secondNum === '') {
+            currentOperator = operator.id;
             return;
         };
 
         operate(currentOperator, +firstNum, +secondNum);
         updateDisplay(firstNum);
-    });
+        currentOperator = operator.id;
+    };
+};
+
+// Function to operate when equals button is clicked
+function inputEquals () {
+    if (secondNum === '') {
+        return;
+    };
+
+    operate(currentOperator, +firstNum, +secondNum);
+    updateDisplay(firstNum);
 };
 
 // Function to wipe out any existing data when AC button is clicked 
 function inputAllClear () {
-    const clearBtn = document.querySelector('#clear');
-
-    clearBtn.addEventListener('click', () => {
-        firstNum = '';
-        secondNum = '';
-        currentOperator = null;
-        updateDisplay(0);
-    });
+    firstNum = '';
+    secondNum = '';
+    currentOperator = null;
+    updateDisplay(0);
 };
 
 // Function to divide the number by 100 when percentage button is clicked
 function inputPercentage () {
-    const percentageBtn = document.querySelector('#percent');
+    if (firstNum === '') {
+        return;
+    };
 
-    percentageBtn.addEventListener('click', () => {
-        if (firstNum === '') {
-            return;
-        };
-
-        firstNum = +firstNum / 100;
-        updateDisplay(firstNum);
-    });
+    firstNum = +firstNum / 100;
+    updateDisplay(firstNum);
 };
 
 // Function to change the sign of the current number when button is clicked
 function inputSign () {
-    const signsBtn = document.querySelector('#sign');
+    if (firstNum === '') {
+        return;
+    } else if (secondNum !== '') {
+        secondNum = +secondNum * -1; 
+        updateDisplay(secondNum);
+        return;
+    };
 
-    signsBtn.addEventListener('click', () => {
-        if (firstNum === '') {
-            return;
-        } else if (secondNum !== '') {
-            secondNum = +secondNum * -1; 
-            updateDisplay(secondNum);
-            return;
-        };
-
-        firstNum = +firstNum * -1;
-        updateDisplay(firstNum);
-    });
+    firstNum = +firstNum * -1;
+    updateDisplay(firstNum);
 };
 
 // Function to add decimal point when button is clicked 
 function inputDecimal () {
-    let decimalNum;
-    const decimalBtn = document.querySelector('#decimal');
+    secondNum = firstNum !== '' && secondNum === '' && currentOperator !== null ? 0 : secondNum;
+    firstNum = firstNum === '' ? 0 : firstNum;
+    decimalNum = secondNum !== '' ? secondNum.toString().split('') : firstNum.toString().split('');
+        
+    // Use for loop to check if the number already have a decimal point
+    // if thats the case then return
+    for (let i = 0; i <= decimalNum.length; i++) {
+        if (decimalNum[i] === '.') {
+            return;
+        };
+    };
+
+    if ((secondNum !== '') && (secondNum.length !== 9)) {
+        secondNum += '.';
+        updateDisplay(secondNum);
+    } else if (firstNum.length !== 9) {
+        firstNum += '.';
+        updateDisplay(firstNum);
+    };
+};
+
+function calculator () {
+    operandBtns.forEach((operand) => {
+        operand.addEventListener('click', () => {
+            inputOperand(operand);
+        });
+    });
+
+    operatorBtns.forEach((operator) => {
+        operator.addEventListener('click', () => {
+            inputOperator(operator);
+        });
+    });
+
+    equalBtn.addEventListener('click', () => {
+        inputEquals();
+    });
+
+    clearBtn.addEventListener('click', () => {
+        inputAllClear();
+    });
+
+    percentageBtn.addEventListener('click', () => {
+        inputPercentage();
+    });
+
+    signsBtn.addEventListener('click', () => {
+        inputSign();
+    });
 
     decimalBtn.addEventListener('click', () => {
-        secondNum = firstNum !== '' && secondNum === '' && currentOperator !== null ? 0 : secondNum;
-        firstNum = firstNum === '' ? 0 : firstNum;
-        decimalNum = secondNum !== '' ? secondNum.toString().split('') : firstNum.toString().split('');
-        
-        // Use for loop to check if the number already have a decimal point
-        // if thats the case then return
-        for (let i = 0; i <= decimalNum.length; i++) {
-            if (decimalNum[i] === '.') {
-                return;
-            };
-        };
-
-        if ((secondNum !== '') && (secondNum.length !== 9)) {
-            secondNum += '.';
-            updateDisplay(secondNum);
-        } else if (firstNum.length !== 9) {
-            firstNum += '.';
-            updateDisplay(firstNum);
-        };
+        inputDecimal();
     });
 };
 
 
-inputOperand();
-inputOperator();
-inputEquals();
-inputAllClear();
-inputPercentage();
-inputSign();
-inputDecimal();
+// Function calling
+calculator();
