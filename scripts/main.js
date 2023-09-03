@@ -15,7 +15,6 @@ function operate (operator, x, y) {
         operator === '-' ? substract(x, y):
             operator === 'x' ? multiply(x, y):
                 operator === '÷' ? divide(x, y): '';
-    
     // Use toFixed method to round numbers when larger than 8 decimal places
     // + sign drops any "extra" zeroes at the end, converting the string to number once again
     firstNum = +firstNum.toFixed(8);
@@ -23,22 +22,37 @@ function operate (operator, x, y) {
     currentOperator = null;
 };
 
+const splitString = (str) => str.toString().replace('.', '').split('');
+
 // Function to update display with value passed through parameter 
 function updateDisplay (value) {
+    let valueSplit = splitString(value);
     const display = document.querySelector('#display');
-    // Regular expresion to add commas as thousands separators
-    value = value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+
+    if (valueSplit.length > 9) {
+        value = Number(value).toExponential(0);
+    } else {
+        // Regular expresion to add commas as thousands separators
+        value = value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    };
+    
     display.innerHTML = value;
 };
 
 // Function to define first and second number
 function inputOperand () {
+    let valueSplit;
     const operandBtns = document.querySelectorAll('.operand');
 
     operandBtns.forEach((operand) => {
         operand.addEventListener('click', () => {
+            valueSplit = currentOperator === null ? splitString(firstNum) :
+                currentOperator !== null ? splitString(secondNum) : valueSplit;
+
             if (currentOperator === null) {
                 if ((firstNum === '') && (operand.id == 0)) {
+                    return;
+                } else if (valueSplit.length >= 9) {
                     return;
                 };
 
@@ -47,6 +61,8 @@ function inputOperand () {
             } else if (currentOperator !== null) {
                 if ((secondNum === '') && (operand.id == 0)) {
                     updateDisplay(0);
+                    return;
+                } else if (valueSplit.length >= 9) {
                     return;
                 };
 
