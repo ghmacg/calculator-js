@@ -7,7 +7,7 @@ const add = (x, y) => x + y;
 const substract = (x, y) => x - y;
 const multiply = (x, y) => x * y;
 // Evaluate whether or not the user is dividing by 0, in that case return ERROR message 
-const divide = (x, y) => y == 0 ? 'ERROR: cannot divide by 0' : x / y;
+const divide = (x, y) => y === 0 ? 'ERROR: cannot divide by 0' : x / y;
 
 // Function to run basic math function depending on operator inputted
 function operate (operator, x, y) {
@@ -17,12 +17,11 @@ function operate (operator, x, y) {
                 operator === '÷' ? divide(x, y): '';
     // Use toFixed method to round numbers when larger than 8 decimal places
     // + sign drops any "extra" zeroes at the end, converting the string to number once again
-    firstNum = +firstNum.toFixed(8);
     secondNum = '';
     currentOperator = null;
 };
 
-const splitString = (str) => str.toString().replace('.', '').split('');
+const splitString = (str) => str.toString().replace(/[.-]/g, '').split('');
 
 // Function to update display with value passed through parameter 
 function updateDisplay (value) {
@@ -47,20 +46,33 @@ function inputOperand () {
     operandBtns.forEach((operand) => {
         operand.addEventListener('click', () => {
             valueSplit = currentOperator === null ? splitString(firstNum) :
-                currentOperator !== null ? splitString(secondNum) : valueSplit;
+                currentOperator !== null ? splitString(secondNum) : '';
 
             if (currentOperator === null) {
-                if ((firstNum === '') && (operand.id == 0)) {
+                let firstChar = firstNum.toString().charAt(0);
+                let secondChar = firstNum.toString().charAt(1);
+
+                if (((firstNum === '') || (firstNum === 0)) && (operand.id == 0)) {
                     return;
                 } else if (valueSplit.length >= 9) {
+                    return;
+                } else if (secondChar == '.') {
+                    firstNum += operand.id;
+                    updateDisplay(firstNum);
+                    return;
+                } else if ((firstChar == 0) && (operand.id != 0)) {
+                    firstNum = operand.id;
+                    firstChar = firstNum.toString().charAt(0);
+                    updateDisplay(firstNum);
                     return;
                 };
 
                 firstNum += operand.id;
                 updateDisplay(firstNum);
             } else if (currentOperator !== null) {
-                if ((secondNum === '') && (operand.id == 0)) {
-                    updateDisplay(0);
+                if (((secondNum === '') || (secondNum === 0)) && (operand.id == 0)) {
+                    secondNum = 0;
+                    updateDisplay(secondNum);
                     return;
                 } else if (valueSplit.length >= 9) {
                     return;
