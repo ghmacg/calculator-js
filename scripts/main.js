@@ -2,6 +2,7 @@ let firstNum = '';
 let secondNum = '';
 let currentOperator = null;
 
+const display = document.querySelector('#display');
 // Basic math functions
 const add = (x, y) => x + y;
 const substract = (x, y) => x - y;
@@ -26,7 +27,6 @@ function operate (operator, x, y) {
 // Function to update display with value passed through parameter 
 function updateDisplay (value) {
     let valueSplit = splitString(value);
-    const display = document.querySelector('#display');
 
     if (value === 'ERROR') {
         firstNum = '';
@@ -93,7 +93,9 @@ function inputOperator () {
 
     operatorBtns.forEach((operator) => {
         operator.addEventListener('click', () => {
-            if (currentOperator === null) {
+            if (display.innerHTML === 'ERROR') {
+                return;
+            }else if (currentOperator === null) {
                 currentOperator = operator.id;
             } else if (currentOperator !== null) {
                 if (secondNum === '') {
