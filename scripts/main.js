@@ -175,36 +175,22 @@ function inputDecimal () {
 
 function calculator () {
     operandBtns.forEach((operand) => {
-        operand.addEventListener('click', () => {
-            inputOperand(operand);
-        });
+        operand.addEventListener('click', () => inputOperand(operand));
     });
 
     operatorBtns.forEach((operator) => {
-        operator.addEventListener('click', () => {
-            inputOperator(operator);
-        });
+        operator.addEventListener('click', () => inputOperator(operator));
     });
 
-    equalBtn.addEventListener('click', () => {
-        inputEquals();
-    });
+    equalBtn.addEventListener('click', () => inputEquals());
 
-    clearBtn.addEventListener('click', () => {
-        inputAllClear();
-    });
+    clearBtn.addEventListener('click', () => inputAllClear());
 
-    percentageBtn.addEventListener('click', () => {
-        inputPercentage();
-    });
+    percentageBtn.addEventListener('click', () => inputPercentage());
 
-    signsBtn.addEventListener('click', () => {
-        inputSign();
-    });
+    signsBtn.addEventListener('click', () => inputSign());
 
-    decimalBtn.addEventListener('click', () => {
-        inputDecimal();
-    });
+    decimalBtn.addEventListener('click', () => inputDecimal());
 };
 
 
