@@ -28,8 +28,9 @@ function operate (operator, x, y) {
         operator === '-' ? substract(x, y):
             operator === 'x' ? multiply(x, y):
                 operator === '÷' ? divide(x, y): '';
-    // Use toFixed method to round numbers when larger than 8 decimal places
+    // Use toFixed method to round numbers when larger than 8 decimal spaces
     // + sign drops any "extra" zeroes at the end, converting the string to number once again
+    firstNum = +firstNum.toFixed(8);
     secondNum = '';
     currentOperator = null;
 };
