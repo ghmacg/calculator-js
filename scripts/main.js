@@ -30,6 +30,12 @@ function operate (operator, x, y) {
                 operator === '÷' ? divide(x, y): '';
     // Use toFixed method to round numbers when larger than 8 decimal spaces
     // + sign drops any "extra" zeroes at the end, converting the string to number once again
+    if (firstNum === 'ERROR') {
+        secondNum = '';
+        currentOperator = null;
+        return;
+    };
+
     firstNum = +firstNum.toFixed(8);
     secondNum = '';
     currentOperator = null;
