@@ -198,7 +198,7 @@ function calculator () {
                     key_code == 191 || key_code == 111 ? inputOperator('÷') : key_code;
         
         // Target each action and input it when key pressed 
-        key_code == 187 || key_code == 13 ? inputEquals() : 
+        key_code == 187 ? inputEquals() : 
             key_code == 190 || key_code == 110 ? inputDecimal() :
                 key_code == 53 && event.shiftKey ? inputPercentage() : 
                     key_code == 67 ? inputAllClear() : key_code;
