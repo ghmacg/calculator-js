@@ -55,6 +55,7 @@ function updateDisplay (value) {
 function inputOperand (operand) {
     numSplitted = currentOperator === null ? splitString(firstNum) :
         currentOperator !== null ? splitString(secondNum) : '';
+        
     containsExponential = numSplitted.includes('e');
 
     if (currentOperator === null) {
@@ -132,6 +133,10 @@ function inputAllClear () {
 function inputPercentage () {
     if (firstNum === '') {
         return;
+    } else if (secondNum !== '') {
+        secondNum = +secondNum / 100;
+        updateDisplay(secondNum);
+        return;
     };
 
     firstNum = +firstNum / 100;
@@ -154,16 +159,17 @@ function inputSign () {
 
 // Function to add decimal point when button is clicked 
 function inputDecimal () {
+    let containsDecimal;
+    let containsExponential;
+
     secondNum = firstNum !== '' && secondNum === '' && currentOperator !== null ? 0 : secondNum;
     firstNum = firstNum === '' ? 0 : firstNum;
-    decimalNum = secondNum !== '' ? secondNum.toString().split('') : firstNum.toString().split('');
+    numSplitted = secondNum !== '' ? secondNum.toString().split('') : firstNum.toString().split('');
+    containsDecimal = numSplitted.includes('.');
+    containsExponential = numSplitted.includes('e');
         
-    // Use for loop to check if the number already have a decimal point
-    // if thats the case then return
-    for (let i = 0; i <= decimalNum.length; i++) {
-        if (decimalNum[i] === '.') {
-            return;
-        };
+    if (containsDecimal || containsExponential) {
+        return;
     };
 
     if ((secondNum !== '') && (secondNum.length !== 9)) {
