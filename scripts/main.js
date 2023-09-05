@@ -1,7 +1,7 @@
 let firstNum = '';
 let secondNum = '';
 let currentOperator = null;
-let valueSplit;
+let numSplitted;
 let decimalNum;
 
 const display = document.querySelector('#display');
@@ -37,11 +37,11 @@ function operate (operator, x, y) {
 
 // Function to update display with value passed through parameter 
 function updateDisplay (value) {
-    let valueSplit = splitString(value);
+    numSplitted = splitString(value);
 
     if (value === 'ERROR') {
         firstNum = '';
-    } else if (valueSplit.length > 9) {
+    } else if (numSplitted.length > 9) {
         value = Number(value).toExponential(0);
     } else {
         // Regular expresion to add commas as thousands separators
@@ -53,8 +53,9 @@ function updateDisplay (value) {
 
 // Function to define first and second number
 function inputOperand (operand) {
-    valueSplit = currentOperator === null ? splitString(firstNum) :
+    numSplitted = currentOperator === null ? splitString(firstNum) :
         currentOperator !== null ? splitString(secondNum) : '';
+    containsExponential = numSplitted.includes('e');
 
     if (currentOperator === null) {
         let firstChar = firstNum.toString().charAt(0);
@@ -62,7 +63,7 @@ function inputOperand (operand) {
 
         if (((firstNum === '') || (firstNum === 0)) && (operand == 0)) {
             return;
-        } else if (valueSplit.length >= 9) {
+        } else if ((numSplitted.length >= 9) || (containsExponential)) {
             return;
         } else if (secondChar == '.') {
             firstNum += operand;
@@ -82,7 +83,7 @@ function inputOperand (operand) {
             secondNum = 0;
             updateDisplay(secondNum);
             return;
-        } else if (valueSplit.length >= 9) {
+        } else if ((numSplitted.length >= 9) || (containsExponential)) {
             return;
         };
 
