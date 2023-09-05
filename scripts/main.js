@@ -59,25 +59,25 @@ function inputOperand (operand) {
         let firstChar = firstNum.toString().charAt(0);
         let secondChar = firstNum.toString().charAt(1);
 
-        if (((firstNum === '') || (firstNum === 0)) && (operand.id == 0)) {
+        if (((firstNum === '') || (firstNum === 0)) && (operand == 0)) {
             return;
         } else if (valueSplit.length >= 9) {
             return;
         } else if (secondChar == '.') {
-            firstNum += operand.id;
+            firstNum += operand;
             updateDisplay(firstNum);
             return;
-        } else if ((firstChar == 0) && (operand.id != 0)) {
-            firstNum = operand.id;
+        } else if ((firstChar == 0) && (operand != 0)) {
+            firstNum = operand;
             firstChar = firstNum.toString().charAt(0);
             updateDisplay(firstNum);
             return;
         };
 
-        firstNum += operand.id;
+        firstNum += operand;
         updateDisplay(firstNum);
     } else if (currentOperator !== null) {
-        if (((secondNum === '') || (secondNum === 0)) && (operand.id == 0)) {
+        if (((secondNum === '') || (secondNum === 0)) && (operand == 0)) {
             secondNum = 0;
             updateDisplay(secondNum);
             return;
@@ -85,7 +85,7 @@ function inputOperand (operand) {
             return;
         };
 
-        secondNum += operand.id;
+        secondNum += operand;
         updateDisplay(secondNum);
     };
 };
@@ -95,16 +95,16 @@ function inputOperator (operator) {
     if (display.innerHTML === 'ERROR') {
         return;
     } else if (currentOperator === null) {
-        currentOperator = operator.id;
+        currentOperator = operator;
     } else if (currentOperator !== null) {
         if (secondNum === '') {
-            currentOperator = operator.id;
+            currentOperator = operator;
             return;
         };
 
         operate(currentOperator, +firstNum, +secondNum);
         updateDisplay(firstNum);
-        currentOperator = operator.id;
+        currentOperator = operator;
     };
 };
 
@@ -174,22 +174,64 @@ function inputDecimal () {
 };
 
 function calculator () {
+    // Keyboard support
+    document.onkeydown = function(event) {
+        var key_press = String.fromCharCode(event.keyCode);
+        var key_code = event.keyCode;
+    
+        // Target each operand and input it when key pressed
+        key_press == 1 ? inputOperand(key_press) :
+            key_press == 2 ? inputOperand(key_press) :
+                key_press == 3 || key_code == 32 ? inputOperand(key_press) :
+                    key_press == 4 ? inputOperand(key_press) :
+                        key_press == 5 ? inputOperand(key_press) :
+                            key_press == 6 && event.shiftKey == false ? inputOperand(key_press) :
+                                key_press == 7 ? inputOperand(key_press) :
+                                    key_press == 8 && event.shiftKey == false ? inputOperand(key_press) :
+                                        key_press == 9 ? inputOperand(key_press) :
+                                            key_press == 0 ? inputOperand(key_press) : key_press;
+        
+        // Target each operator and input it when key pressed
+        key_code == 187 && event.shiftKey || key_code == 107 ? inputOperator('+') :
+            key_code == 189 || key_code == 109 ? inputOperator('-') :
+                key_code == 56 && event.shiftKey || key_code == 106 || key_code == 88 ? inputOperator('x') :
+                    key_code == 191 || key_code == 111 ? inputOperator('÷') : key_code;
+        
+        // Target each action and input it when key pressed 
+        key_code == 187 || key_code == 13 ? inputEquals() : 
+            key_code == 190 || key_code == 110 ? inputDecimal() :
+                key_code == 53 && event.shiftKey ? inputPercentage() : 
+                    key_code == 67 ? inputAllClear() : key_code;
+    };
+
+    // Handlers for displayed buttons
+    // Operand buttons
     operandBtns.forEach((operand) => {
-        operand.addEventListener('click', () => inputOperand(operand));
+        let operandId = operand.id;
+
+        operand.addEventListener('click', () => inputOperand(operandId));
     });
 
+    // Operator buttons
     operatorBtns.forEach((operator) => {
-        operator.addEventListener('click', () => inputOperator(operator));
+        let operatorId = operator.id;
+
+        operator.addEventListener('click', () => inputOperator(operatorId));
     });
 
+    // Equals button
     equalBtn.addEventListener('click', () => inputEquals());
 
+    // All Clear button
     clearBtn.addEventListener('click', () => inputAllClear());
 
+    // Percentage button
     percentageBtn.addEventListener('click', () => inputPercentage());
 
+    // Change number sign from positive to negative or viceversa button
     signsBtn.addEventListener('click', () => inputSign());
 
+    // Decimal point button
     decimalBtn.addEventListener('click', () => inputDecimal());
 };
 
