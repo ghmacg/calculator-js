@@ -119,9 +119,7 @@ function inputOperator (operator) {
 
 // Function to operate when equals button is clicked
 function inputEquals () {
-    if (secondNum === '') {
-        return;
-    };
+    if (secondNum === '') return;
 
     operate(currentOperator, +firstNum, +secondNum);
     updateDisplay(firstNum);
@@ -174,9 +172,7 @@ function inputDecimal () {
     containsDecimal = numSplitted.includes('.');
     containsExponential = numSplitted.includes('e');
         
-    if (containsDecimal || containsExponential) {
-        return;
-    };
+    if (containsDecimal || containsExponential) return;
 
     if ((secondNum !== '') && (secondNum.length !== 9)) {
         secondNum += '.';
@@ -234,19 +230,19 @@ function calculator () {
     });
 
     // Equals button
-    equalBtn.addEventListener('click', () => inputEquals());
+    equalBtn.addEventListener('click', inputEquals);
 
     // All Clear button
-    clearBtn.addEventListener('click', () => inputAllClear());
+    clearBtn.addEventListener('click', inputAllClear);
 
     // Percentage button
-    percentageBtn.addEventListener('click', () => inputPercentage());
+    percentageBtn.addEventListener('click', inputPercentage);
 
     // Change number sign from positive to negative or viceversa button
-    signsBtn.addEventListener('click', () => inputSign());
+    signsBtn.addEventListener('click', inputSign);
 
     // Decimal point button
-    decimalBtn.addEventListener('click', () => inputDecimal());
+    decimalBtn.addEventListener('click', inputDecimal);
 };
 
 
