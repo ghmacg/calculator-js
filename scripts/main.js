@@ -64,7 +64,7 @@ function inputOperand (operand) {
     numSplitted = currentOperator === null ? splitString(firstNum) :
         currentOperator !== null ? splitString(secondNum) : '';
         
-    containsExponential = numSplitted.includes('e');
+    let containsExponential = numSplitted.includes('e');
 
     if (currentOperator === null) {
         let firstChar = firstNum.toString().charAt(0);
