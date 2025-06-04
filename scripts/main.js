@@ -61,7 +61,9 @@ function updateDisplay (value) {
 function inputOperand (operand) {
     numSplitted = currentOperator === null ? splitString(firstNum) :
         currentOperator !== null ? splitString(secondNum) : '';
-        
+
+    let containsExponential;
+
     containsExponential = numSplitted.includes('e');
 
     if (currentOperator === null) {
