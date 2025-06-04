@@ -15,7 +15,8 @@ const decimalBtn = document.querySelector('#decimal');
 
 // Basic math functions
 const add = (x, y) => x + y;
-const substract = (x, y) => x - y;
+// Corrected spelling of subtract
+const subtract = (x, y) => x - y;
 const multiply = (x, y) => x * y;
 // Evaluate whether or not the user is dividing by 0, in that case return ERROR message 
 const divide = (x, y) => y === 0 ? 'ERROR' : x / y;
@@ -25,7 +26,7 @@ const splitString = (str) => str.toString().replace(/[.-]/g, '').split('');
 // Function to run basic math function depending on operator inputted
 function operate (operator, x, y) {
     firstNum = operator === '+' ? add(x, y) :
-        operator === '-' ? substract(x, y):
+        operator === '-' ? subtract(x, y):
             operator === 'x' ? multiply(x, y):
                 operator === '÷' ? divide(x, y): '';
     // Use toFixed method to round numbers when larger than 8 decimal spaces
