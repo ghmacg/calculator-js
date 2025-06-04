@@ -1,21 +1,23 @@
+const isNode = typeof module !== 'undefined' && module.exports;
+
 let firstNum = '';
 let secondNum = '';
 let currentOperator = null;
 let numSplitted;
 let decimalNum;
 
-const display = document.querySelector('#display');
-const operandBtns = document.querySelectorAll('.operand');
-const operatorBtns = document.querySelectorAll('.operator');
-const equalBtn = document.querySelector('#equals');
-const clearBtn = document.querySelector('#clear');
-const percentageBtn = document.querySelector('#percent');
-const signsBtn = document.querySelector('#sign');
-const decimalBtn = document.querySelector('#decimal');
+const display = !isNode ? document.querySelector('#display') : null;
+const operandBtns = !isNode ? document.querySelectorAll('.operand') : null;
+const operatorBtns = !isNode ? document.querySelectorAll('.operator') : null;
+const equalBtn = !isNode ? document.querySelector('#equals') : null;
+const clearBtn = !isNode ? document.querySelector('#clear') : null;
+const percentageBtn = !isNode ? document.querySelector('#percent') : null;
+const signsBtn = !isNode ? document.querySelector('#sign') : null;
+const decimalBtn = !isNode ? document.querySelector('#decimal') : null;
 
 // Basic math functions
 const add = (x, y) => x + y;
-const substract = (x, y) => x - y;
+const subtract = (x, y) => x - y;
 const multiply = (x, y) => x * y;
 // Evaluate whether or not the user is dividing by 0, in that case return ERROR message 
 const divide = (x, y) => y === 0 ? 'ERROR' : x / y;
@@ -25,7 +27,7 @@ const splitString = (str) => str.toString().replace(/[.-]/g, '').split('');
 // Function to run basic math function depending on operator inputted
 function operate (operator, x, y) {
     firstNum = operator === '+' ? add(x, y) :
-        operator === '-' ? substract(x, y):
+        operator === '-' ? subtract(x, y):
             operator === 'x' ? multiply(x, y):
                 operator === '÷' ? divide(x, y): '';
     // Use toFixed method to round numbers when larger than 8 decimal spaces
@@ -247,4 +249,10 @@ function calculator () {
 
 
 // Function calling
-calculator();
+if (!isNode) {
+    calculator();
+}
+
+if (isNode) {
+    module.exports = { add, subtract, multiply, divide };
+}
