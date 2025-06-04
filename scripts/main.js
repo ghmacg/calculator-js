@@ -52,7 +52,7 @@ function updateDisplay (value) {
     } else if (numSplitted.length > 9) {
         value = Number(value).toExponential(0);
     } else {
-        // Regular expresion to add commas as thousands separators
+        // Regular expression to add commas as thousands separators
         value = value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     };
     
